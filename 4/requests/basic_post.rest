@@ -1,10 +1,10 @@
 POST http://localhost:3001/api/blogs
 Content-Type: application/json
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImthbGFqYW5uZSIsImlkIjoiNjIwNjQwNWI1MjY3YThmNmQyNjkyN2YxIiwiaWF0IjoxNjQ0NTg1NTUxfQ.sQh6TCVoW5SrG4YkpAIvsHfrbEpVcCE9fNOh6I_Pakk
 
 {
   "title": "Janne Kalastaa & lumen",
   "author": "Janne",
   "url": "www.jannen-kala-blogi.fi",
-  "likes": 1,
-  "userId": "6206405b5267a8f6d26927f1"
+  "likes": 1
 }
