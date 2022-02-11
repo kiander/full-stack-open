@@ -41,9 +41,49 @@ test('there are two blogs', async () =>
 test('a specific blog is within the returned blogs', async () => {
   const response = await api.get('/api/blogs')
 
-  const contents = response.body.map(r => r.title)
-  expect(contents).toContain(
+  const title = response.body.map(r => r.title)
+  expect(title).toContain(
     'Janne Kalastaa & lumen'  )
+})
+
+test('a valid blog can be added ', async () => {
+  const newBlog = {
+    title: 'uusi blogi',
+    important: true,
+  }
+
+  await api
+    .post('/api/blogs')
+    .send(newBlog)
+    .expect(200)
+    .expect('Content-Type', /application\/json/)
+
+  const response = await api.get('/api/blogs')
+
+  const title = response.body.map(r => r.title)
+
+  expect(response.body).toHaveLength(helper.initialBlogs.length + 1)
+  expect(title).toContain(
+    'uusi blogi'
+  )
+})
+
+test('a blog can be deleted', async () => {
+  const blogsAtStart = await helper.blogsInDb()
+  const blogToDelete = blogsAtStart[0]
+
+  await api
+    .delete(`/api/blogs/${blogToDelete.id}`)
+    .expect(204)
+  const blogsAtEnd = await helper.blogsInDb()
+
+  expect(blogsAtEnd).toHaveLength(
+    helper.initialBlogs.length - 1
+  )
+
+  const title = blogsAtEnd.map(r => r.title)
+
+  expect(title).not.toContain(blogToDelete.title)
 })
 
 afterAll(() =>
